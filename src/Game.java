@@ -6,11 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Arrays;
-
 
 class Game {
     enum Direction {
@@ -22,7 +20,7 @@ class Game {
     private final Random randomNumber;
     private int score;
     private int highScore;
-    private static final String highScoreLocation = "../high_score.txt";
+    private static final String highScoreLocation = "../highScore.txt";
 
     Game() {
         board = new Tile[4][4];

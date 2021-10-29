@@ -164,7 +164,7 @@ class Game {
     private void rotateBoard(Direction direction) {
         Tile temp;
         switch (direction) {
-            case UP: // invert around (x, x) axis
+            case UP:
                 for (int r = 1; r < 4; r++) {
                     for (int c = 0; c < r; c++) {
                         temp = board[r][c];
@@ -173,7 +173,7 @@ class Game {
                     }
                 }
                 break;
-            case DOWN: // invert around (4-x, x) axis
+            case DOWN:
                 for (int r = 0; r < 4; r++) {
                     for (int c = 0; c < (3 - r); c++) {
                         temp = board[r][c];
@@ -182,7 +182,7 @@ class Game {
                     }
                 }
                 break;
-            case RIGHT: // invert around y axis
+            case RIGHT:
                 for (int r = 0; r < 4; r++) {
                     temp = board[r][0];
                     board[r][0] = board[r][3];
@@ -227,7 +227,7 @@ class Game {
     }
 
     private boolean isFour() {
-        return randomNumber.nextInt(10) == 5; //10% chance
+        return randomNumber.nextInt(10) == 5;
     }
 
     private void addNewTile() {

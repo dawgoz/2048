@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Arrays;
 
-class Game {
+public class Game {
     enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
@@ -20,9 +22,9 @@ class Game {
     private final Random randomNumber;
     private int score;
     private int highScore;
-    private static final String highScoreLocation = "../highScore.txt";
+    private static final String highScoreLocation = "./highScore.txt";
 
-    Game() {
+    public Game() {
         board = new Tile[4][4];
         oldBoard = new Tile[4][4];
         score = 0;
@@ -35,7 +37,7 @@ class Game {
         loadHighScore();
     }
 
-    private void saveHighScore() {
+    public void saveHighScore() {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(highScoreLocation), StandardCharsets.UTF_8))) {
             this.highScore = score;
@@ -45,7 +47,7 @@ class Game {
         }
     }
 
-    private void loadHighScore() {
+    public void loadHighScore() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(highScoreLocation));
             String num = reader.readLine();
@@ -218,7 +220,7 @@ class Game {
                 if (sub[i + 1] != null && sub[i + 1].getPower() == sub[i].getPower()) {
                     sub[i + 1] = null;
                     sub[i].increasePow();
-                    score += sub[i].getValue();
+                    score += sub[i].getValue(); //test
                 }
             }
         }

@@ -1,3 +1,5 @@
+package main.java;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -43,12 +45,21 @@ class GameUI {
     private final JLabel winState;
     private final JLabel pauseState;
     private final Timer timer;
+    private final int delayTime = 1000;
     private int secondsElapsed;
     private Grid grid;
+    private final int secInHour = 3600;
+    private final int secInMin = 60;
+    private final int row = 4;
+    private final int col = 4;
 
     private GameUI() {
         final int minWindowHeight = 700;
         final int minWindowWidth = 500;
+        final int hGapTop = 10;
+        final int vGapTop = 10;
+        final int hGapWin = 5;
+        final int vGapWin = 5;
         squareSize = (minWindowHeight / squareSizeScale);
 
         frame = new JFrame();
@@ -61,17 +72,17 @@ class GameUI {
         frame.setBackground(backgroundColor);
 
         JPanel topLeftPanel = new JPanelCustom();
-        topLeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        topLeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, hGapTop, vGapTop));
         topLeftPanel.setBorder(new CompoundBorder(topLeftPanel.getBorder(),
                 new EmptyBorder(10, 15, -15, 0)));
 
         JPanel topRightPanel = new JPanelCustom();
-        topRightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        topRightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, hGapTop, vGapTop));
         topRightPanel.setBorder(new CompoundBorder(topRightPanel.getBorder(),
                 new EmptyBorder(10, 0, -200, 15)));
 
         JPanel winPanel = new JPanelCustom();
-        winPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        winPanel.setLayout(new FlowLayout(FlowLayout.CENTER, hGapWin, vGapWin));
         winPanel.setBorder(new CompoundBorder(winPanel.getBorder(),
                 new EmptyBorder(0, 0, -15, 0)));
 
@@ -112,9 +123,9 @@ class GameUI {
         frame.add(winPanel, BorderLayout.SOUTH);
         frame.add(grid = new Grid());
         secondsElapsed = 0;
-        timer = new Timer(1000, e -> {
+        timer = new Timer(delayTime, e -> {
             secondsElapsed++;
-            time.setText(String.format("Time: %02d:%02d ", (secondsElapsed % 3600) / 60, (secondsElapsed % 60)));
+            time.setText(String.format("Time: %02d:%02d ", (secondsElapsed % secInHour) / secInMin, (secondsElapsed % secInMin)));
         });
         timer.start();
 
@@ -218,7 +229,7 @@ class GameUI {
     }
 
     private void setGameOverText() {
-        winState.setText("<html><center>Game Over!<br>Press ESC to play again<center><html>");
+        winState.setText("<html><center>main.java.Game Over!<br>Press ESC to play again<center><html>");
     }
 
     private void setWinText() {
@@ -248,14 +259,14 @@ class GameUI {
     }
 
     private class Grid extends JPanel {
-        private final Square[][] cells = new Square[4][4];
+        private final Square[][] cells = new Square[row][col];
 
         private Grid() {
             this.setLayout(new GridBagLayout());
             this.setBackground(backgroundColor);
             GridBagConstraints gbc = new GridBagConstraints();
-            for (int r = 0; r < 4; r++) {
-                for (int c = 0; c < 4; c++) {
+            for (int r = 0; r < row; r++) {
+                for (int c = 0; c < col; c++) {
                     gbc.gridx = c;
                     gbc.gridy = r;
                     Square square = new Square(r, c, null);
@@ -268,8 +279,8 @@ class GameUI {
         }
 
         private void updateTiles() {
-            for (int r = 0; r < 4; r++) {
-                for (int c = 0; c < 4; c++) {
+            for (int r = 0; r < row; r++) {
+                for (int c = 0; c < col; c++) {
                     if (game.getBoard()[r][c] != null) {
                         Color tileColor = game.getBoard()[r][c].getColor();
                         cells[r][c].setBackground(tileColor);
@@ -284,8 +295,8 @@ class GameUI {
         }
 
         private void refreshSquares() {
-            for (int r = 0; r < 4; r++) {
-                for (int c = 0; c < 4; c++) {
+            for (int r = 0; r < row; r++) {
+                for (int c = 0; c < col; c++) {
                     cells[r][c].revalidate();
                     cells[r][c].repaint();
                 }
@@ -316,7 +327,6 @@ class GameUI {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
 
-                /* Scale font */
                 float fontScale = 0.42f;
                 if (tileValue.length() > 3) {
                     float fontDecrease = 0.075f;

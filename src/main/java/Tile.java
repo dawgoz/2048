@@ -1,3 +1,5 @@
+package main.java;
+
 import java.awt.*;
 
 class Tile {
@@ -40,6 +42,5 @@ class Tile {
             default ->
                     new Color(32, 32, 32);
         };
-
     }
 }
